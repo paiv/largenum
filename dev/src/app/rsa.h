@@ -27,7 +27,7 @@
 //   by : fuurin <fuurin@gmx.net>, 2004
 //============================================================================
 
-#pragma	once
+#pragma once
 #include "large.h"
 
 namespace RSA
@@ -35,35 +35,35 @@ namespace RSA
 
 class Key
 {
-	friend	class Rsa;
+  friend class Rsa;
 public:
-	Key()	{}
+  Key()  {}
 
-	Key( const char* modulus, const char* exponent )
-	{
-		_n		= large::fromString( modulus );
-		_e		= large::fromString( exponent );
-		_size	= ( _n.bitCount() + 7 ) / 8;
-	}
+  Key( const char* modulus, const char* exponent )
+  {
+    _n    = large::fromString( modulus );
+    _e    = large::fromString( exponent );
+    _size = ( _n.bitCount() + 7 ) / 8;
+  }
 
 private:
-	size_t	_size;
-	large	_n;
-	large	_e;
+  size_t _size;
+  large  _n;
+  large  _e;
 };
 
 class Rsa
 {
 public:
-	void	setPublicKey( const Key& key )				{	_publicKey = key;		}
-	void	setPrivateKey( const Key& key )				{	_privateKey = key;		}
+  void  setPublicKey( const Key& key )        {  _publicKey = key;    }
+  void  setPrivateKey( const Key& key )       {  _privateKey = key;   }
 
-	string	encrypt( const char* message ) const;
-	string	decrypt( const char* message ) const;
+  string  encrypt( const char* message ) const;
+  string  decrypt( const char* message ) const;
 
 private:
-	Key		_privateKey;
-	Key		_publicKey;
+  Key    _privateKey;
+  Key    _publicKey;
 };
 
-}	// namespace RSA
+}  // namespace RSA

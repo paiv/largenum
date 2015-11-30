@@ -27,48 +27,48 @@
 //   by : fuurin <fuurin@gmx.net>, 2004
 //============================================================================
 
-#pragma	once
+#pragma once
 
 template< class T >
 class pod_vector
 {
 public:
-	typedef	const T&	const_reference;
-	typedef	const T*	const_iterator;
-	typedef	T&	reference;
-	typedef	T*	iterator;
+  typedef const T& const_reference;
+  typedef const T* const_iterator;
+  typedef T& reference;
+  typedef T* iterator;
 
 public:
-	pod_vector();
-	~pod_vector()											{	clear();				}
-	pod_vector( const pod_vector& v );
-	pod_vector&	operator=( const pod_vector& v )			{	copyfrom(v); return *this;	}
+  pod_vector();
+  ~pod_vector()           { clear();    }
+  pod_vector( const pod_vector& v );
+  pod_vector& operator=( const pod_vector& v )   { copyfrom(v); return *this; }
 
-	void	push_back( const T& v );
-	void	insert( const_iterator where, const T& v );
-	void	erase( iterator first, iterator last );
+  void push_back( const T& v );
+  void insert( const_iterator where, const T& v );
+  void erase( iterator first, iterator last );
 
-	const_reference		operator[]( size_t pos ) const		{	return	_data[pos];		}
-	const_iterator		begin() const						{	return	&_data[0];		}
-	const_iterator		end() const							{	return	&_data[_used];	}
-	reference			operator[]( size_t pos );
-	iterator			begin()								{	return	&_data[0];		}
-	iterator			end()								{	return	&_data[_used];	}
+  const_reference  operator[]( size_t pos ) const  { return _data[pos];  }
+  const_iterator  begin() const      { return &_data[0];  }
+  const_iterator  end() const       { return &_data[_used]; }
+  reference   operator[]( size_t pos );
+  iterator   begin()        { return &_data[0];  }
+  iterator   end()        { return &_data[_used]; }
 
-	size_t	size() const									{	return	_used;		}
-	void	reserve( size_t size );
-	void	resize( size_t size );
+  size_t size() const         { return _used;  }
+  void reserve( size_t size );
+  void resize( size_t size );
 
-	bool	operator==( const pod_vector& v ) const;
-
-protected:
-	T*		_data;
-	size_t	_size;
-	size_t	_used;
+  bool operator==( const pod_vector& v ) const;
 
 protected:
-	void	clear();
-	void	copyfrom( const pod_vector& v );
+  T*  _data;
+  size_t _size;
+  size_t _used;
+
+protected:
+  void clear();
+  void copyfrom( const pod_vector& v );
 };
 
 #include "pod_vector.inl"

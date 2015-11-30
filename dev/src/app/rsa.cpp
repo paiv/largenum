@@ -35,68 +35,68 @@ namespace RSA
 
 string Rsa::encrypt( const char* message ) const
 {
-	string	so;
-	// RSAES-PKCS1-V1_5-ENCRYPT
+  string  so;
+  // RSAES-PKCS1-V1_5-ENCRYPT
 
-	size_t	k	= _publicKey._size;
-	unsigned char*	buf	= new unsigned char[k];
-	std::auto_ptr<unsigned char>	guardBuf(buf);
+  size_t  k  = _publicKey._size;
+  unsigned char*  buf  = new unsigned char[k];
+  std::auto_ptr<unsigned char>  guardBuf(buf);
 
-	for( size_t i = 0; i < strlen(message); )
-	{
-		size_t	mLen	= strlen( &message[i] );
-		if( mLen > k - 11 )	mLen	= k - 11;
+  for( size_t i = 0; i < strlen(message); )
+  {
+    size_t  mLen  = strlen( &message[i] );
+    if( mLen > k - 11 )  mLen  = k - 11;
 
-		buf[0]	= 0;
-		buf[1]	= 2;
-		memset( &buf[2], -1, k - mLen - 3 );	// FIXME: must be random
-		buf[ k - mLen - 1 ]	= 0;
-		memcpy( &buf[k-mLen], &message[i], mLen  );
-		i	+= mLen;
+    buf[0]  = 0;
+    buf[1]  = 2;
+    memset( &buf[2], -1, k - mLen - 3 );  // FIXME: must be random
+    buf[ k - mLen - 1 ]  = 0;
+    memcpy( &buf[k-mLen], &message[i], mLen  );
+    i  += mLen;
 
-		large	EM	= large::fromUnsignedBinary( buf, k );
-		large	C	= EM.modExp( _publicKey._e, _publicKey._n );
+    large  EM  = large::fromUnsignedBinary( buf, k );
+    large  C  = EM.modExp( _publicKey._e, _publicKey._n );
 
-		so	+= C.toHex();
-	}
+    so  += C.toHex();
+  }
 
-	return	so;
+  return  so;
 }
 
 string Rsa::decrypt( const char* message ) const
 {
-	string	so;
-	// RSAES-PKCS1-V1_5-DECRYPT
+  string  so;
+  // RSAES-PKCS1-V1_5-DECRYPT
 
-	size_t	k	= _privateKey._size;
-	unsigned char*	buf	= new unsigned char[k*2+1];
-	std::auto_ptr<unsigned char>	guardBuf(buf);
+  size_t  k  = _privateKey._size;
+  unsigned char*  buf  = new unsigned char[k*2+1];
+  std::auto_ptr<unsigned char>  guardBuf(buf);
 
-	for( size_t i = 0; i < strlen(message); )
-	{
-		size_t	mLen	= strlen( &message[i] );
-		if( mLen > k*2 )	mLen	= k*2;
-		else
-			if( mLen != k*2 )	return	"decrypton error";
+  for( size_t i = 0; i < strlen(message); )
+  {
+    size_t  mLen  = strlen( &message[i] );
+    if( mLen > k*2 )  mLen  = k*2;
+    else
+      if( mLen != k*2 )  return  "decrypton error";
 
-		memcpy( buf, &message[i], mLen );
-		buf[mLen]	= 0;
-		i	+= mLen;
+    memcpy( buf, &message[i], mLen );
+    buf[mLen]  = 0;
+    i  += mLen;
 
-		large	C	= large::fromHex( (const char*) &buf[0] );
-		large	EM	= C.modExp( _privateKey._e, _privateKey._n );
-		size_t	n	= EM.toUnsignedBinary( buf, k );
-		buf[n]	= 0;
+    large  C  = large::fromHex( (const char*) &buf[0] );
+    large  EM  = C.modExp( _privateKey._e, _privateKey._n );
+    size_t  n  = EM.toUnsignedBinary( buf, k );
+    buf[n]  = 0;
 
-		if( n < 11 || buf[0] != 0 || buf[1] != 2 )	return "decrypton error";
-		size_t	j	= 2;
-		for( ; j < n && buf[j] != 0; j++ );
-		if( j < 10 || j >= n )	return "decrypton error";
+    if( n < 11 || buf[0] != 0 || buf[1] != 2 )  return "decrypton error";
+    size_t  j  = 2;
+    for( ; j < n && buf[j] != 0; j++ );
+    if( j < 10 || j >= n )  return "decrypton error";
 
-		so	+= (char*) &buf[++j];
-	}
-	
-	return	so;
+    so  += (char*) &buf[++j];
+  }
+
+  return  so;
 }
 
-}	// namespace RSA
+}  // namespace RSA

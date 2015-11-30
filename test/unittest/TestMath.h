@@ -26,23 +26,23 @@
 
 class MathTestCase : public CPPUNIT_NS::TestFixture
 {
-	CPPUNIT_TEST_SUITE( MathTestCase );
-	CPPUNIT_TEST( testStr );
-	CPPUNIT_TEST( testAdd );
-	CPPUNIT_TEST( testShift );
-	CPPUNIT_TEST( testMul );
-	CPPUNIT_TEST( testMod );
-	CPPUNIT_TEST( testRsa );
-	CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE( MathTestCase );
+  CPPUNIT_TEST( testStr );
+  CPPUNIT_TEST( testAdd );
+  CPPUNIT_TEST( testShift );
+  CPPUNIT_TEST( testMul );
+  CPPUNIT_TEST( testMod );
+  CPPUNIT_TEST( testRsa );
+  CPPUNIT_TEST_SUITE_END();
 
 public:
-	void	setUp();
+  void setUp();
 
 protected:
-	void	testStr();
-	void	testAdd();
-	void	testShift();
-	void	testMul();
-	void	testMod();
-	void	testRsa();
+  void testStr();
+  void testAdd();
+  void testShift();
+  void testMul();
+  void testMod();
+  void testRsa();
 };
